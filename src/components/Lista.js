@@ -1,12 +1,12 @@
 import React from 'react';
+import ItemTarea from './ItemTarea';
 
-const Lista = () => {
-
-
-
+const Lista = (props) => {
     return (
         <ul className="list-group">
-            <li className="list-group-item"></li>
+            {
+                props.arregloTareas.map((dato,indice)=><ItemTarea nombreTarea={dato} key={indice} borrarTarea={props.borrarTarea}></ItemTarea>)
+            }
         </ul>
     );
 };

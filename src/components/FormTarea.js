@@ -1,11 +1,33 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Lista from './Lista';
 
 const FormTarea = () => {
 // Aquí escribo código de JS
+let tareasLS = JSON.parse(localStorage.getItem('listaTareas'));
 // Creo 2 states
 const [tarea, setTarea] = useState("");
-const [listaTareas, setListaTareas] = useState([]);
+const [listaTareas, setListaTareas] = useState(tareasLS);
+
+// Uso useEffect en el montaje y en cualquier state
+useEffect(()=>{
+    if (tareasLS) {
+        console.log("aquí quiero actualizar LS");
+        localStorage.setItem('listaTareas', JSON.stringify(listaTareas));
+    } else{
+        console.log("el LS no existe la key listaTareas");
+        localStorage.setItem('listaTareas', JSON.stringify([]));
+    }
+});
+
+// Uso useEffect sólo en el montaje
+// useEffect(()=>{
+//     console.log("Ejecutando montaje");
+// },[]);
+
+// Uso useEffect en el montaje y en determinado state
+// useEffect(()=>{
+//     console.log("Ejecutando el ciclo de vida de un componente en el montaje y cambio de listaTareas");
+// },[listaTareas]);
 
 // const guardarTarea = (e)=>{
 //     console.log(e.target.value);
@@ -24,13 +46,19 @@ const handleSubmit = (e) => {
     setTarea("");
 }
 
+const borrarTarea = (nombre)=>{
+    // Función para eliminar un item del state listaTareas
+    let arregloFiltrado = listaTareas.filter((elemento)=> elemento !== nombre);
+    setListaTareas(arregloFiltrado);
+}
+
     return ( 
     <div className="container my-5">
         {/* Agregar aquí HTML */}
         <form onSubmit = {handleSubmit}>
             <div className="d-flex mt-3">
                 <input type="text"
-                 placeholder="Ingrese una tarea" 
+                 placeholder="Ingrese una tarea"
                  className="form-control" 
                  onChange={(e)=> setTarea(e.target.value)}
                  value={tarea}
@@ -39,7 +67,7 @@ const handleSubmit = (e) => {
             </div>
         </form>
         <article className="my-5">
-        <Lista></Lista>
+        <Lista arregloTareas={listaTareas} borrarTarea={borrarTarea}></Lista>
         </article>
     </div>
     );
