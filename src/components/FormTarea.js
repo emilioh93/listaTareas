@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import Lista from './Lista';
 
 const FormTarea = () => {
-// Aquí escribo código de JS
-let tareasLS = JSON.parse(localStorage.getItem('listaTareas'));
+    // Aquí escribo código de JS
+    let tareasLS = JSON.parse(localStorage.getItem('listaTareas'));
 // Creo 2 states
 const [tarea, setTarea] = useState("");
 const [listaTareas, setListaTareas] = useState(tareasLS);
